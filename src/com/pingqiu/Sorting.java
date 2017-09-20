@@ -27,7 +27,7 @@ public class Sorting {
 			for(; j >= 0 && arr[j] > key; j--) {
 				arr[j + 1] = arr[j];
 			}
-			arr[j + 1] = key;
+			arr[j + 1] = key; // take care it's 'arr[j+1]', it's failed the inner for loop condition.
 		}
 	}
 
