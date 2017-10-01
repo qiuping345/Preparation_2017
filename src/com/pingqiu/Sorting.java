@@ -1,27 +1,8 @@
 package com.pingqiu;
 
+import static com.pingqiu.Util.swap;
+
 public class Sorting {
-
-    public static void main(String[] args) {
-        Sorting sorter = new Sorting();
-
-        int[] test = new int[] { 3, 5, 1, 2, 4, 7, 11, 9, 0 };
-        sorter.insertionSort(test);
-        PrintUtil.printArray(test);
-
-        int[] test2 = new int[] { 5, 2, 4, 6, 1, 3 };
-        sorter.insertionSort(test2);
-        PrintUtil.printArray(test2);
-
-        int[] test3 = new int[] { 42, 9, 17, 54, 602, -3, 54, 999, -11 };
-        sorter.bubbleSort(test3);
-        PrintUtil.printArray(test3);
-
-        int[] test4 = new int[] { 42, 9, 17, 54, 602, -3, 54, 999, -11 };
-        sorter.mergeSort(test4);
-        PrintUtil.printArray(test4);
-
-    }
 
     public void insertionSort(int[] arr) {
         if (arr == null || arr.length < 2) {
@@ -79,10 +60,35 @@ public class Sorting {
         for (int i = arr.length - 1; i >= 0; i--) {
             for (int j = 0; j < i; j++) {
                 if (arr[j] > arr[j + 1]) {
-                    Util.swap(arr, j, j + 1);
+                    swap(arr, j, j + 1);
                 }
             }
         }
+    }
+    
+    
+    public void quicksort(int[] arr) {
+        quicksort(arr, 0, arr.length - 1);
+    }
+    
+    private void quicksort(int[] arr, int start, int end) {
+        if(start < end) {
+            int p = partition(arr, start, end);
+            quicksort(arr, start, p - 1);
+            quicksort(arr, p + 1, end);
+        }
+    }
+    
+    private int partition(int[] arr, int start, int end) {
+        //int pivot = arr[end];
+        int i = start - 1;
+        for (int j = start; j < end; j++) {
+            if (arr[j] <= arr[end]) {
+                swap(arr, ++i, j);
+            }
+        }
+        swap(arr, i + 1, end);
+        return i + 1;
     }
 
 }

@@ -2,15 +2,6 @@ package com.pingqiu;
 
 public class DivideConquer_max_subarray {
 
-    public static void main(String[] args) {
-        // TODO Auto-generated method stub
-        DivideConquer_max_subarray inst = new DivideConquer_max_subarray();
-        int[] test = new int[] {13, -3, -25, 20, -3, -16, -23, 18, 20, -7, 12, -5, -22, 15, -4, 7};
-        int result = inst.maxSubArray(test, 0, test.length - 1);
-        System.out.println(result);
-        
-    }
-    
     public int maxSubArray(int[] arr, int start, int end) {
         int mid = start / 2 + end / 2;
         if (end == start) {
@@ -35,7 +26,7 @@ public class DivideConquer_max_subarray {
             }
         }
         
-        int sumWithMid = sumLeft + sumRight; //Math.max(sumLeft + sumRight, Math.max(sumLeft, sumRight));
+        int sumWithMid = sumLeft + sumRight;
         int maxLeft = maxSubArray(arr, start, mid);
         int maxRight = maxSubArray(arr, mid + 1, end);
         return Math.max(sumWithMid, Math.max(maxLeft, maxRight));
