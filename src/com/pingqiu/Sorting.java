@@ -79,16 +79,16 @@ public class Sorting {
         }
     }
     
-    private int partition(int[] arr, int start, int end) {
-        //int pivot = arr[end];
-        int i = start - 1;
-        for (int j = start; j < end; j++) {
-            if (arr[j] <= arr[end]) {
-                swap(arr, ++i, j);
+    
+    private int partition(int[] nums, int start, int end) {
+        int s = start - 1;
+        for(int i = start; i < end; i++) {
+            if(nums[i] <= nums[end]) {
+                swap(nums, ++s, i);
             }
         }
-        swap(arr, i + 1, end);
-        return i + 1;
+        swap(nums, ++s, end);
+        return s;
     }
 
 }
