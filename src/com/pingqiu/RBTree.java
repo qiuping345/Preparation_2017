@@ -16,6 +16,10 @@ public class RBTree {
 		return root == null;
 	}
 	
+	public RBTreeNode getRoot() {
+		return root;
+	}
+	
 	public void leftRotate(RBTreeNode node) {
 		RBTreeNode rChild = node.right;
 		node.right = rChild.left;
@@ -60,7 +64,9 @@ public class RBTree {
 		node.parent = lChild;
 	}
 	
-	public void insert(RBTreeNode newNode) {
+	public void insert(Comparable value) {
+		RBTreeNode newNode = new RBTreeNode();
+		newNode.value = value;
 		RBTreeNode parent = null;
 		RBTreeNode current = root;
 		while (current != null) {
@@ -87,7 +93,7 @@ public class RBTree {
 	}
 	
 	private void insertFixUp(RBTreeNode newNode) {
-		while (!newNode.parent.isBlack) {
+		while (newNode != root && !newNode.parent.isBlack) {
 			if (newNode.parent == newNode.parent.parent.left) {
 				RBTreeNode rightUncle = newNode.parent.parent.right;
 				if (!rightUncle.isBlack) {
@@ -127,4 +133,26 @@ public class RBTree {
 		root.isBlack = true;
 	}
 
+	
+	public String preorderTraversal(RBTreeNode node) {
+		if (node == null) {
+			return "";
+		}
+		String result = "";
+		result += node.value + ", ";
+		result += preorderTraversal(node.left);
+		result += preorderTraversal(node.right);
+		return result;
+	}
+	
+	public String inorderTraversal(RBTreeNode node) {
+		if (node == null) {
+			return "";
+		}
+		String result = "";
+		result += inorderTraversal(node.left);
+		result += node.value + ", ";
+		result += inorderTraversal(node.right);
+		return result;
+	}
 }
