@@ -1,136 +1,160 @@
 package com.pingqiu;
 
-public class RBTree {
+import com.pingqiu.BinarySearchTree.Node;
+
+public class RBTree<ValueType extends Comparable> extends BinarySearchTree {
 	
-	private RBTreeNode root;
 	private int blackHeight;
 	
-	public static class RBTreeNode {
-		public RBTreeNode left, right, parent;
-		public boolean isBlack;
-		public int size;
-		public Comparable value;
+	public static class RBTreeNode<ValueType extends Comparable>
+	       extends BinarySearchTree.Node {
+		
+		
+        public RBTreeNode(ValueType value) {
+            super(value);
+        }
+
+        public RBTreeNode(ValueType value, Node<ValueType> left, Node<ValueType> right, Node<ValueType> parent) {
+            super(value, left, right, parent);
+        }
+		
+		private boolean isBlack = false;
+		
+		public boolean isBlack() {
+			return isBlack;
+		}
+		public boolean isRed() {
+			return !isBlack;
+		}
+		public void setBlack() {
+			isBlack = true;
+		}
+		public void setRed() {
+			isBlack = false;
+		}
+		
+		@Override
+		public RBTreeNode getParent() {
+			return (RBTreeNode) super.getParent();
+		}
+		
+		@Override
+		public RBTreeNode getLeft() {
+			return (RBTreeNode) super.getLeft();
+		}
+		
+		@Override
+		public RBTreeNode getRight() {
+			return (RBTreeNode) super.getRight();
+		}
+		
+		@Override
+		public String toString() {
+			return super.toString() + ", color: " + (isBlack() ? "B" : "R");
+		}
 	}
 	
 	public boolean isEmpty() {
-		return root == null;
+		return getRoot() == null;
 	}
 	
+	@Override
 	public RBTreeNode getRoot() {
-		return root;
+		return (RBTreeNode) super.getRoot();
 	}
 	
-	public void leftRotate(RBTreeNode node) {
-		RBTreeNode rChild = node.right;
-		node.right = rChild.left;
+
+	public void leftRotate(Node node) {
+		Node rChild = node.getRight();
+		node.setRight(rChild.getLeft());
 		
-		if(rChild.left != null) {
-			rChild.left.parent = node;
+		if(rChild.getLeft() != null) {
+			rChild.getLeft().setParent(node);
 		}
 		
-		rChild.parent = node.parent;
+		rChild.setParent(node.getParent());
 		
-		if(node.parent == null) {
-			root = rChild;
-		} else if (node == node.parent.left) {
-			node.parent.left = rChild;
+		if(node.getParent() == null) {
+			setRoot(rChild);
+		} else if (node == node.getParent().getLeft()) {
+			node.getParent().setLeft(rChild);
 		} else {
-			node.parent.right = rChild;
+			node.getParent().setRight(rChild);
 		}
 		
-		rChild.left = node;
-		node.parent = rChild;
+		rChild.setLeft(node);
+		node.setParent(rChild);
 	}
 
-	public void rightRotate(RBTreeNode node) {
-		RBTreeNode lChild = node.left;
-		node.left = lChild.right;
+	public void rightRotate(Node node) {
+		Node lChild = node.getLeft();
+		node.setLeft(lChild.getRight());
 		
-		if(lChild.right != null) {
-			lChild.right.parent = node;
+		if(lChild.getRight() != null) {
+			lChild.getRight().setParent(node);
 		}
 		
-		lChild.parent = node.parent;
+		lChild.setParent(node.getParent());
 		
-		if(node.parent == null) {
-			root = lChild;
-		} else if(node == node.parent.left) {
-			node.parent.left = lChild;
+		if(node.getParent() == null) {
+			setRoot(lChild);
+		} else if(node == node.getParent().getLeft()) {
+			node.getParent().setLeft(lChild);
 		} else {
-			node.parent.right = lChild;
+			node.getParent().setRight(lChild);
 		}
 		
-		lChild.right = node;
-		node.parent = lChild;
+		lChild.setRight(node);
+		node.setParent(lChild);
 	}
 	
-	public void insert(Comparable value) {
-		RBTreeNode newNode = new RBTreeNode();
-		newNode.value = value;
-		RBTreeNode parent = null;
-		RBTreeNode current = root;
-		while (current != null) {
-			parent = current;
-			if (newNode.value.compareTo(current.value) < 0) {
-				current = current.left;
-			} else {
-				current = current.right;
-			}
-		}
-		newNode.parent = parent;
-		if (parent == null) {
-			root = newNode;
-		} else if (newNode.value.compareTo(parent.value) < 0) {
-			parent.left = newNode;
-		} else {
-			parent.right = newNode;
-		}
-		
-		newNode.left = null;
-		newNode.right = null;
-		newNode.isBlack = false;
-		insertFixUp(newNode);
+	@Override
+	public Node<ValueType> insert(Comparable value) {
+		Node newNode = super.insert(value);
+		insertFixUp((RBTreeNode)newNode);
+		return newNode;
 	}
 	
 	private void insertFixUp(RBTreeNode newNode) {
-		while (newNode != root && !newNode.parent.isBlack) {
-			if (newNode.parent == newNode.parent.parent.left) {
-				RBTreeNode rightUncle = newNode.parent.parent.right;
-				if (!rightUncle.isBlack) {
-					newNode.parent.isBlack = true;
-					rightUncle.isBlack = true;
-					newNode.parent.parent.isBlack = false;
-					newNode = newNode.parent.parent;
+		RBTreeNode uncle;
+		while (newNode.getParent().isRed()) {
+			if (newNode.getParent() == newNode.getParent().getParent().getLeft()) {
+				uncle = newNode.getParent().getParent().getRight();
+				if (!uncle.isBlack()) {
+					newNode.getParent().setBlack();
+					uncle.setBlack();
+					newNode.getParent().getParent().setRed();
+					newNode = newNode.getParent().getParent();
 				} else {
-					if (newNode == newNode.parent.right) {
-						newNode = newNode.parent;
+					if (newNode == newNode.getParent().getRight()) {
+						newNode = newNode.getParent();
 						leftRotate(newNode);
 					}
 					
-					newNode.parent.isBlack = true;
-					newNode.parent.parent.isBlack = false;
-					rightRotate(newNode);
+					newNode.getParent().setBlack();;
+					newNode.getParent().getParent().setRed();
+					rightRotate(newNode.getParent().getParent());
 				}
 			} else {
-				RBTreeNode leftAunt = newNode.parent.parent.left;
-				if (!leftAunt.isBlack) {
-					newNode.parent.isBlack = true;
-					leftAunt.isBlack = true;
-					newNode.parent.parent.isBlack = false;
-					newNode = newNode.parent.parent;
+				uncle = newNode.getParent().getParent().getLeft();
+				if (!uncle.isBlack()) {
+					newNode.getParent().setBlack();
+					uncle.setBlack();
+					newNode.getParent().getParent().setRed();
+					newNode = newNode.getParent().getParent();
 				} else {
-					if (newNode == newNode.parent.left) {
-						newNode = newNode.parent;
+					if (newNode == newNode.getParent().getLeft()) {
+						newNode = newNode.getParent();
 					    rightRotate(newNode);
 					}
 					
-					newNode.parent.isBlack = true;
-					newNode.parent.parent.isBlack = false;
-					leftRotate(newNode);
+					newNode.getParent().setBlack();
+					newNode.getParent().getParent().setRed();
+					leftRotate(newNode.getParent().getParent());
 				}
 			}
 		}
-		root.isBlack = true;
+		getRoot().setBlack();
 	}
 
 	
@@ -139,9 +163,9 @@ public class RBTree {
 			return "";
 		}
 		String result = "";
-		result += node.value + ", ";
-		result += preorderTraversal(node.left);
-		result += preorderTraversal(node.right);
+		result += node.toString() + "\n";
+		result += preorderTraversal(node.getLeft()) + "\n";
+		result += preorderTraversal(node.getLeft());
 		return result;
 	}
 	
@@ -150,9 +174,9 @@ public class RBTree {
 			return "";
 		}
 		String result = "";
-		result += inorderTraversal(node.left);
-		result += node.value + ", ";
-		result += inorderTraversal(node.right);
+		result += inorderTraversal(node.getLeft());
+		result += "\n" + node.toString() + "\n";
+		result += inorderTraversal(node.getRight());
 		return result;
 	}
 }

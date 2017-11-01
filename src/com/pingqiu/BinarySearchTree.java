@@ -13,6 +13,10 @@ public class BinarySearchTree<ValueType extends Comparable> {
         return root;
     }
     
+    protected void setRoot(Node<ValueType> n) {
+    	root = n;
+    }
+    
     public Node<ValueType> insert(ValueType newValue) {
         Node<ValueType> p = null;
         Node<ValueType> curr = root;
@@ -76,9 +80,7 @@ public class BinarySearchTree<ValueType extends Comparable> {
         }
 
         Node<ValueType> replacement = null;
-        if (n.getLeft() == null && n.getRight() == null) {
-             replacement = null;
-        } else if (n.getLeft() != null && n.getRight() != null) {
+        if (n.getLeft() != null && n.getRight() != null) {
             replacement = successor(n);
             n.setValue(replacement.getValue());
             delete(replacement.getValue(), n.getRight());
@@ -205,6 +207,13 @@ public class BinarySearchTree<ValueType extends Comparable> {
         }
         public void setParent(Node<ValueType> parent) {
             this.parent = parent;
+        }
+        
+        public String toString() {
+        	return "value: " + getValue() 
+        	          + ", left:" + (left == null ? "null" : left.getValue())
+        			  + ", right: " + (right == null ? "null" : right.getValue())
+        			  + ", parent: " + (parent == null ? "null" : parent.getValue());
         }
     }
 
