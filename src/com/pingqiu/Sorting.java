@@ -24,7 +24,7 @@ public class Sorting {
     }
 
     public void mergeSort(int[] arr, int start, int end) {
-        int mid = start / 2 + end / 2;
+        int mid = start + (end - start) / 2;
         if (end - start < 2) {
             return;
         }
