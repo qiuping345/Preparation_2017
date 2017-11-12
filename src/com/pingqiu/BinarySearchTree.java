@@ -14,17 +14,17 @@ public class BinarySearchTree<ValueType extends Comparable> {
     }
     
     protected void setRoot(Node<ValueType> n) {
-    	root = n;
+        root = n;
     }
     
-    public Node<ValueType> insert(ValueType newValue) {
+    public boolean insert(Node<ValueType> newNode) {
         Node<ValueType> p = null;
         Node<ValueType> curr = root;
         while(curr != null) {
-            int diff = curr.getValue().compareTo(newValue);
+            int diff = curr.getValue().compareTo(newNode.getValue());
             if(diff == 0) {
                 // already have the same value
-                return curr;
+                return false;
             } else if (diff < 0) {
                 p = curr;
                 curr = curr.right;
@@ -33,13 +33,12 @@ public class BinarySearchTree<ValueType extends Comparable> {
                 curr = curr.left;
             }
         }
-        
-        Node<ValueType> newNode = new Node<ValueType>(newValue);
+
         newNode.setParent(p);
         if (p == null) {
             root = newNode;
         } else {
-            int diff = p.getValue().compareTo(newValue);
+            int diff = p.getValue().compareTo(newNode.getValue());
             if (diff < 0) {
                 p.right = newNode;
             } else {
@@ -47,7 +46,7 @@ public class BinarySearchTree<ValueType extends Comparable> {
             }
         }
         
-        return newNode;
+        return true;
     }
     
     public Node<ValueType> find(ValueType value) {
@@ -210,10 +209,10 @@ public class BinarySearchTree<ValueType extends Comparable> {
         }
         
         public String toString() {
-        	return "value: " + getValue() 
-        	          + ", left:" + (left == null ? "null" : left.getValue())
-        			  + ", right: " + (right == null ? "null" : right.getValue())
-        			  + ", parent: " + (parent == null ? "null" : parent.getValue());
+            return "value: " + getValue() 
+                      + ", left:" + (left == null ? "null" : left.getValue())
+                      + ", right: " + (right == null ? "null" : right.getValue())
+                      + ", parent: " + (parent == null ? "null" : parent.getValue());
         }
     }
 

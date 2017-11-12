@@ -11,19 +11,19 @@ public class TestBinarySearchTree {
     @Test
     public void testInsert_root() {
         BinarySearchTree<Integer> bst = new BinarySearchTree<Integer>();
-        bst.insert(5);
+        bst.insert(new Node(5));
         assertTrue(5 == bst.getRoot().getValue());
     }
     
     private BinarySearchTree<Integer> buildSimpleTree() {
         BinarySearchTree<Integer> bst = new BinarySearchTree<Integer>();
-        bst.insert(15);
-        bst.insert(13);
-        bst.insert(18);
-        bst.insert(16);
-        bst.insert(19);
-        bst.insert(11);
-        bst.insert(14);
+        bst.insert(new Node(15));
+        bst.insert(new Node(13));
+        bst.insert(new Node(18));
+        bst.insert(new Node(16));
+        bst.insert(new Node(19));
+        bst.insert(new Node(11));
+        bst.insert(new Node(14));
         return bst;
     }
     
@@ -99,15 +99,15 @@ public class TestBinarySearchTree {
     @Test
     public void testDelete_withOnlyLeft() {
         BinarySearchTree<Integer> bst = new BinarySearchTree<Integer>();
-        bst.insert(25);
-        bst.insert(13);
-        bst.insert(78);
-        bst.insert(36);
-        bst.insert(89);
-        bst.insert(11);
-        bst.insert(14);
-        bst.insert(33);
-        bst.insert(35);
+        bst.insert(new Node(25));
+        bst.insert(new Node(13));
+        bst.insert(new Node(78));
+        bst.insert(new Node(36));
+        bst.insert(new Node(89));
+        bst.insert(new Node(11));
+        bst.insert(new Node(14));
+        bst.insert(new Node(33));
+        bst.insert(new Node(35));
         
         bst.delete(36);
         assertTrue(null == bst.find(36));
@@ -118,16 +118,16 @@ public class TestBinarySearchTree {
     @Test
     public void testDelete_withOnlyRight() {
         BinarySearchTree<Integer> bst = new BinarySearchTree<Integer>();
-        bst.insert(25);
-        bst.insert(13);
-        bst.insert(78);
-        bst.insert(36);
-        bst.insert(89);
-        bst.insert(11);
-        bst.insert(14);
-        bst.insert(47);
-        bst.insert(42);
-        bst.insert(48);
+        bst.insert(new Node(25));
+        bst.insert(new Node(13));
+        bst.insert(new Node(78));
+        bst.insert(new Node(36));
+        bst.insert(new Node(89));
+        bst.insert(new Node(11));
+        bst.insert(new Node(14));
+        bst.insert(new Node(47));
+        bst.insert(new Node(42));
+        bst.insert(new Node(48));
         
         bst.delete(36);
         assertTrue(null == bst.find(36));
@@ -138,19 +138,19 @@ public class TestBinarySearchTree {
     @Test
     public void testDelete_withLeftAndRight() {
         BinarySearchTree<Integer> bst = new BinarySearchTree<Integer>();
-        bst.insert(25);
-        bst.insert(13);
-        bst.insert(78);
-        bst.insert(36);
-        bst.insert(89);
-        bst.insert(11);
-        bst.insert(14);
-        bst.insert(33);
-        bst.insert(35);
-        bst.insert(47);
-        bst.insert(42);
-        bst.insert(48);
-        bst.insert(45);
+        bst.insert(new Node(25));
+        bst.insert(new Node(13));
+        bst.insert(new Node(78));
+        bst.insert(new Node(36));
+        bst.insert(new Node(89));
+        bst.insert(new Node(11));
+        bst.insert(new Node(14));
+        bst.insert(new Node(33));
+        bst.insert(new Node(35));
+        bst.insert(new Node(47));
+        bst.insert(new Node(42));
+        bst.insert(new Node(48));
+        bst.insert(new Node(45));
         
         bst.delete(36);
         assertTrue(null == bst.find(36));
@@ -163,19 +163,19 @@ public class TestBinarySearchTree {
     @Test
     public void testDelete_root() {
         BinarySearchTree<Integer> bst = new BinarySearchTree<Integer>();
-        bst.insert(25);
-        bst.insert(13);
-        bst.insert(78);
-        bst.insert(36);
-        bst.insert(89);
-        bst.insert(11);
-        bst.insert(14);
-        bst.insert(33);
-        bst.insert(35);
-        bst.insert(47);
-        bst.insert(42);
-        bst.insert(48);
-        bst.insert(45);
+        bst.insert(new Node(25));
+        bst.insert(new Node(13));
+        bst.insert(new Node(78));
+        bst.insert(new Node(36));
+        bst.insert(new Node(89));
+        bst.insert(new Node(11));
+        bst.insert(new Node(14));
+        bst.insert(new Node(33));
+        bst.insert(new Node(35));
+        bst.insert(new Node(47));
+        bst.insert(new Node(42));
+        bst.insert(new Node(48));
+        bst.insert(new Node(45));
         
         bst.delete(25);
         assertTrue(null == bst.find(25));
