@@ -29,5 +29,12 @@ public class Util {
     public static boolean isSorted(int[] arr) {
         return isSortedAscend(arr) || isSortedDescend(arr);
     }
+    
+    public static void printFirstNElements(int[] arr, int n) {
+    	for(int i = 0; i < n && i < arr.length; i++) {
+    		System.out.print(" " + arr[i]);
+    	}
+    	System.out.println();
+    }
 }
 

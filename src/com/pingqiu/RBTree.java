@@ -9,13 +9,26 @@ public class RBTree<ValueType extends Comparable> extends BinarySearchTree {
 	public static class RBTreeNode<ValueType extends Comparable>
 	       extends BinarySearchTree.Node {
 		
+		public static final RBTreeNode NIL = new RBTreeNode(Integer.MIN_VALUE);
 		
         public RBTreeNode(ValueType value) {
             super(value);
+            init();
         }
 
         public RBTreeNode(ValueType value, Node<ValueType> left, Node<ValueType> right, Node<ValueType> parent) {
             super(value, left, right, parent);
+            init();
+        }
+        
+        private void init() {
+        	NIL.setBlack();
+        	NIL.setLeft(null);
+        	NIL.setRight(null);
+        	NIL.setParent(null);
+        	setLeft(NIL);
+        	setRight(NIL);
+        	setParent(NIL);
         }
 		
 		private boolean isBlack = false;
@@ -68,13 +81,13 @@ public class RBTree<ValueType extends Comparable> extends BinarySearchTree {
 		Node rChild = node.getRight();
 		node.setRight(rChild.getLeft());
 		
-		if(rChild.getLeft() != null) {
+		if(rChild.getLeft() != RBTreeNode.NIL) {
 			rChild.getLeft().setParent(node);
 		}
 		
 		rChild.setParent(node.getParent());
 		
-		if(node.getParent() == null) {
+		if(node.getParent() == RBTreeNode.NIL) {
 			setRoot(rChild);
 		} else if (node == node.getParent().getLeft()) {
 			node.getParent().setLeft(rChild);
@@ -90,13 +103,13 @@ public class RBTree<ValueType extends Comparable> extends BinarySearchTree {
 		Node lChild = node.getLeft();
 		node.setLeft(lChild.getRight());
 		
-		if(lChild.getRight() != null) {
+		if(lChild.getRight() != RBTreeNode.NIL) {
 			lChild.getRight().setParent(node);
 		}
 		
 		lChild.setParent(node.getParent());
 		
-		if(node.getParent() == null) {
+		if(node.getParent() == RBTreeNode.NIL) {
 			setRoot(lChild);
 		} else if(node == node.getParent().getLeft()) {
 			node.getParent().setLeft(lChild);
@@ -108,16 +121,17 @@ public class RBTree<ValueType extends Comparable> extends BinarySearchTree {
 		node.setParent(lChild);
 	}
 	
-	@Override
-	public Node<ValueType> insert(Comparable value) {
-		Node newNode = super.insert(value);
-		insertFixUp((RBTreeNode)newNode);
-		return newNode;
+	public boolean insert(RBTreeNode<ValueType> newNode) {
+		boolean inserted = super.insert(newNode);
+		if(inserted) {
+			insertFixUp(newNode);
+		}
+		return inserted;
 	}
 	
 	private void insertFixUp(RBTreeNode newNode) {
 		RBTreeNode uncle;
-		while (newNode.getParent().isRed()) {
+		while (newNode.getParent() != null && newNode.getParent().isRed()) {
 			if (newNode.getParent() == newNode.getParent().getParent().getLeft()) {
 				uncle = newNode.getParent().getParent().getRight();
 				if (!uncle.isBlack()) {
