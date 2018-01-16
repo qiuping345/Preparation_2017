@@ -26,7 +26,7 @@ public class PlayTreeMap {
         System.out.println("===================================");
 
         String rkey = map.lastKey();
-        while(rkey != null) {
+        while (rkey != null) {
             System.out.println("" + rkey + ", " + map.get(rkey));
             rkey = map.lowerKey(rkey);
         }
@@ -37,9 +37,9 @@ public class PlayTreeMap {
         SortedMap<String, Integer> headmap = map.headMap(midKey);
         Set<String> keyset = headmap.keySet();
         Iterator<String> iter = keyset.iterator();
-        while(iter.hasNext()) {
+        while (iter.hasNext()) {
             String k = iter.next();
-            if(k != null) {
+            if (k != null) {
                 System.out.println("key: " + k + ", value: " + headmap.get(k));
             }
         }
@@ -49,18 +49,18 @@ public class PlayTreeMap {
         SortedMap<String, Integer> tailmap = map.tailMap(midKey);
         Set<String> tailkeyset = tailmap.keySet();
         Iterator<String> tailiter = tailkeyset.iterator();
-        while(tailiter.hasNext()) {
+        while (tailiter.hasNext()) {
             String k = tailiter.next();
-            if(k != null) {
+            if (k != null) {
                 System.out.println("key: " + k + ", value: " + tailmap.get(k));
             }
-        }		
+        }
 
         System.out.println("===================================");
 
         Set<String> nkeyset = map.keySet();
         Iterator<String> nki = nkeyset.iterator();
-        while(nki.hasNext()) {
+        while (nki.hasNext()) {
             System.out.println("key : " + nki.next());
         }
 
@@ -68,7 +68,7 @@ public class PlayTreeMap {
 
         Set<String> nnkeyset = map.navigableKeySet();
         Iterator<String> nnki = nnkeyset.iterator();
-        while(nnki.hasNext()) {
+        while (nnki.hasNext()) {
             System.out.println("key : " + nnki.next());
         }
 
@@ -76,7 +76,7 @@ public class PlayTreeMap {
 
         Set<String> dkeyset = map.descendingKeySet();
         Iterator<String> dki = dkeyset.iterator();
-        while(dki.hasNext()) {
+        while (dki.hasNext()) {
             System.out.println("key : " + dki.next());
         }
 
