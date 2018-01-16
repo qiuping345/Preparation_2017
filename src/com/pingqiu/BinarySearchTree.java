@@ -4,25 +4,25 @@ import java.util.Collections;
 
 public class BinarySearchTree<ValueType extends Comparable> {
     private Node<ValueType> root;
-    
+
     public BinarySearchTree() {
         // empty
     }
-    
+
     public Node<ValueType> getRoot() {
         return root;
     }
-    
+
     protected void setRoot(Node<ValueType> n) {
         root = n;
     }
-    
+
     public boolean insert(Node<ValueType> newNode) {
         Node<ValueType> p = null;
         Node<ValueType> curr = root;
-        while(curr != null) {
+        while (curr != null) {
             int diff = curr.getValue().compareTo(newNode.getValue());
-            if(diff == 0) {
+            if (diff == 0) {
                 // already have the same value
                 return false;
             } else if (diff < 0) {
@@ -45,17 +45,17 @@ public class BinarySearchTree<ValueType extends Comparable> {
                 p.left = newNode;
             }
         }
-        
+
         return true;
     }
-    
+
     public Node<ValueType> find(ValueType value) {
         return find(value, root);
     }
-    
+
     public Node<ValueType> find(ValueType value, Node<ValueType> rootNode) {
         Node<ValueType> n = rootNode;
-        while(n != null) {
+        while (n != null) {
             int diff = n.getValue().compareTo(value);
             if (diff == 0) {
                 return n;
@@ -67,11 +67,11 @@ public class BinarySearchTree<ValueType extends Comparable> {
         }
         return null;
     }
-    
+
     public Node<ValueType> delete(ValueType value) {
         return delete(value, root);
     }
-    
+
     public Node<ValueType> delete(ValueType value, Node<ValueType> rootNode) {
         Node<ValueType> n = find(value, rootNode);
         if (n == null) {
@@ -89,13 +89,13 @@ public class BinarySearchTree<ValueType extends Comparable> {
         } else {
             replacement = n.getLeft();
         }
-        
-        if(replacement != null) {
+
+        if (replacement != null) {
             replacement.setParent(n.getParent());
         }
-        
-        if(n.getParent() != null) {
-            if(n == n.getParent().getLeft()) {
+
+        if (n.getParent() != null) {
+            if (n == n.getParent().getLeft()) {
                 n.getParent().setLeft(replacement);
             } else {
                 n.getParent().setRight(replacement);
@@ -103,73 +103,72 @@ public class BinarySearchTree<ValueType extends Comparable> {
         } else {
             root = replacement;
         }
-        
+
         return n;
     }
-    
-    
+
     public Node<ValueType> min() {
         return min(root);
     }
-    
+
     public Node<ValueType> min(Node<ValueType> node) {
         while (node != null && node.getLeft() != null) {
             node = node.getLeft();
         }
         return node;
     }
-    
+
     public Node<ValueType> max() {
         return max(root);
     }
-    
+
     public Node<ValueType> max(Node<ValueType> node) {
         while (node != null && node.getRight() != null) {
             node = node.getRight();
         }
         return node;
     }
-    
+
     public Node<ValueType> predecessor(Node<ValueType> node) {
-        if(node == null) {
+        if (node == null) {
             return null;
         }
-        
-        if(node.getLeft() != null) {
+
+        if (node.getLeft() != null) {
             return max(node.getLeft());
         } else {
             Node<ValueType> p = node.getParent();
-            
-            while(p != null && node == p.getLeft()) {
+
+            while (p != null && node == p.getLeft()) {
                 node = p;
                 p = p.getParent();
             }
-            
+
             return p;
         }
     }
 
     public Node<ValueType> successor(Node<ValueType> node) {
-        if(node == null) {
+        if (node == null) {
             return null;
         }
-        
-        if(node.getRight() != null) {
+
+        if (node.getRight() != null) {
             return min(node.getRight());
         } else {
             Node<ValueType> p = node.getParent();
-            
-            while(p != null && node == p.getRight()) {
+
+            while (p != null && node == p.getRight()) {
                 node = p;
                 p = p.getParent();
             }
-            
+
             return p;
         }
     }
-    
-    public static class Node <ValueType extends Comparable> {
-        private ValueType value; 
+
+    public static class Node<ValueType extends Comparable> {
+        private ValueType value;
         private Node<ValueType> left, right, parent;
 
         public Node(ValueType value) {
@@ -186,33 +185,39 @@ public class BinarySearchTree<ValueType extends Comparable> {
         public ValueType getValue() {
             return value;
         }
+
         public void setValue(ValueType value) {
             this.value = value;
         }
+
         public Node getLeft() {
             return left;
         }
+
         public void setLeft(Node left) {
             this.left = left;
         }
+
         public Node getRight() {
             return right;
         }
+
         public void setRight(Node right) {
             this.right = right;
         }
+
         public Node<ValueType> getParent() {
             return parent;
         }
+
         public void setParent(Node<ValueType> parent) {
             this.parent = parent;
         }
-        
+
         public String toString() {
-            return "value: " + getValue() 
-                      + ", left:" + (left == null ? "null" : left.getValue())
-                      + ", right: " + (right == null ? "null" : right.getValue())
-                      + ", parent: " + (parent == null ? "null" : parent.getValue());
+            return "value: " + getValue() + ", left:" + (left == null ? "null" : left.getValue()) + ", right: "
+                    + (right == null ? "null" : right.getValue()) + ", parent: "
+                    + (parent == null ? "null" : parent.getValue());
         }
     }
 

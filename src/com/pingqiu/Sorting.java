@@ -65,25 +65,23 @@ public class Sorting {
             }
         }
     }
-    
-    
+
     public void quicksort(int[] arr) {
         quicksort(arr, 0, arr.length - 1);
     }
-    
+
     private void quicksort(int[] arr, int start, int end) {
-        if(start < end) {
+        if (start < end) {
             int p = partition(arr, start, end);
             quicksort(arr, start, p - 1);
             quicksort(arr, p + 1, end);
         }
     }
-    
-    
+
     private int partition(int[] nums, int start, int end) {
         int s = start - 1;
-        for(int i = start; i < end; i++) {
-            if(nums[i] <= nums[end]) {
+        for (int i = start; i < end; i++) {
+            if (nums[i] <= nums[end]) {
                 swap(nums, ++s, i);
             }
         }

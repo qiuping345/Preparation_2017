@@ -10,7 +10,7 @@ public class PrintUtil {
         }
         System.out.println(" ");
     }
-    
+
     public static void printArray(long[] arr) {
         if (arr != null) {
             for (long i : arr) {
