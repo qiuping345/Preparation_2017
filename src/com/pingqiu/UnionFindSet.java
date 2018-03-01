@@ -2,13 +2,16 @@ package com.pingqiu;
 
 public class UnionFindSet {
     private int[] id;    // access to component id (site indexed)
+    private int[] size;
     private int components;   //number of components
     
     public UnionFindSet(int n) {
         components = n;
         id = new int[n];
+        size = new int[n];
         for(int i = 0; i < n; i++) {
             id[i] = i;
+            size[i] = 1;
         }
     }
     
@@ -21,13 +24,13 @@ public class UnionFindSet {
     }
     
     public int find(int arg) {
-        return slowFind(arg);
-        //return quickFind(arg);
+        //return slowFind(arg);
+        return quickFind(arg);
     }
     
     public void union(int p, int q) {
-        quickUnion(p, q);
-        //slowUnion(p, q);
+        //quickUnion(p, q);
+        slowUnion(p, q);
     }
     
     public int slowFind(int arg) {
@@ -41,7 +44,14 @@ public class UnionFindSet {
         int i = find(p);
         int j = find(q);
         if (i != j) {
-            id[i] = j;
+            // make smaller point to larger
+            if(size[i] < size[j]) {
+                id[i] = j;
+                size[j] += size[i];
+            } else {
+                id[j] = i;
+                size[i] += size[j];
+            }
             components--;
         }
     }
@@ -55,13 +65,16 @@ public class UnionFindSet {
         int qId = find(q);
         
         if(pId != qId) {
+            int smallerInSize = size[pId] < size[qId] ? pId : qId;
+            int biggerInSize = size[pId] < size[qId] ? qId : pId;
             for(int i = 0; i < id.length; i++) {
-                if(id[i] == pId) {
-                    id[i] = qId;
+                if(id[i] == smallerInSize) {
+                    id[i] = biggerInSize;
                 }
             }
+            size[biggerInSize] += size[smallerInSize];
             components--;
-        }        
+        }
     }
     
 }

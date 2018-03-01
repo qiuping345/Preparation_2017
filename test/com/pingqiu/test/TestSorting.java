@@ -81,7 +81,7 @@ public class TestSorting {
         int[] test = new int[arrWithDup.length];
         System.arraycopy(test, 0, arrWithDup, 0, arrWithDup.length);
         sorter.quicksort(test);
-        assert(Util.isSorted(test));
+        assertTrue(Util.isSorted(test));
     }
 
 }
