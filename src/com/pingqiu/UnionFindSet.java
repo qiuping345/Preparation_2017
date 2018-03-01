@@ -24,13 +24,13 @@ public class UnionFindSet {
     }
     
     public int find(int arg) {
-        //return slowFind(arg);
-        return quickFind(arg);
+        return slowFind(arg);
+        //return quickFind(arg);
     }
     
     public void union(int p, int q) {
-        //quickUnion(p, q);
-        slowUnion(p, q);
+        quickUnion(p, q);
+        //slowUnion(p, q);
     }
     
     public int slowFind(int arg) {
