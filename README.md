@@ -45,11 +45,11 @@ Quick Select
 
 Two Pointers  
     双指针问题包含几种情况：  
-    * 前向/同向  
-		* 窗口，以我的经验，选择end作为外层循环变量比较方便  
-        * 快慢  
-    * 相向，要选好外层循环用left还是right  
-	* 两个数组，每个数组分别有一个指针  
+  * 前向/同向  
+    * 窗口，以我的经验，选择end作为外层循环变量比较方便  
+    * 快慢  
+  * 相向，要选好外层循环用left还是right  
+  * 两个数组，每个数组分别有一个指针  
   
 同向窗口类的双指针问题：Longest Substring Without Repeating Characters:  
 按照九章模板的做法：  
