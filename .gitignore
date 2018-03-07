@@ -6,6 +6,9 @@ bin
 *.o
 *.so
 
+.settings
+.classpath
+.project
 .DS_Store
 .DS_Store?
 ._*
