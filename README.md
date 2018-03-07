@@ -43,16 +43,16 @@ Quick Select
     } 
 ```
 
-Two Pointers
-    双指针问题包含几种情况：
-	1.前向/同向
-        1.窗口，以我的经验，选择end作为外层循环变量比较方便
-        1.快慢
-    1.相向，要选好外层循环用left还是right
-    1.两个数组，每个数组分别有一个指针
-    
-同向窗口类的双指针问题：Longest Substring Without Repeating Characters:
-按照九章模板的做法：
+Two Pointers  
+    双指针问题包含几种情况：  
+	1.前向/同向  
+        1.窗口，以我的经验，选择end作为外层循环变量比较方便  
+        1.快慢  
+    1.相向，要选好外层循环用left还是right  
+    1.两个数组，每个数组分别有一个指针  
+  
+同向窗口类的双指针问题：Longest Substring Without Repeating Characters:  
+按照九章模板的做法：  
 ```
     public int lengthOfLongestSubstring(String s) {
         int[] count = new int[256];
@@ -69,7 +69,7 @@ Two Pointers
         return len;
     }
 ```
-我自己比较喜欢的做法，我比较喜欢这种情况end作为外层循环变量：
+我自己比较喜欢的做法，我比较喜欢这种情况end作为外层循环变量：  
 ```
     public int lengthOfLongestSubstring(String s) {
         int[] count = new int[256];
