@@ -54,28 +54,29 @@ public class Graph {
         }
     }
     
+    /** 
+     * this solution is assuming the graph is a DAG, no cycle in it. 
+     *  otherwise, the visited array should be int array, 0 - not visited; 1 - being visited; 2 - visited.
+     * 
+     */
     public List<Integer> topologicalSorting() {
         List<Integer> visitSequence = new ArrayList<Integer>();
         boolean[] visited = new boolean[vertices];
         for(int i = 0; i < vertices; i++) {
-            dfsTopoUtil(i, visited, visitSequence);
+        	if(!visited[i]) {
+        		dfsTopoUtil(i, visited, visitSequence);
+        	}
         }
         return visitSequence;
     }
     
     public void dfsTopoUtil(int v, boolean[] visited, List<Integer> visitSequence) {
-        if(visited[v]) {
-            return;
-        }
-        
         visited[v] = true;
-        
         for (Integer adj : adjacency[v]) {
             if (!visited[adj]) {
                 dfsTopoUtil(adj, visited, visitSequence);
             }
         }
-        
         visitSequence.add(0, v);
     }
 }
