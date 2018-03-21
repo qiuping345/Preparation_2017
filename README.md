@@ -67,17 +67,112 @@ Binary Search
 
 ```
 
+Topological Sorting. Course Schedule, Leetcode #210
+
+DFS solution, including:
+1. checking cycle
+2. get the sorting result.
+
+```
+    public int[] findOrder(int numCourses, int[][] prereq) {
+        List<Integer>[] adjacency = new List[numCourses];
+        for(int i = 0; i < numCourses; i++){
+            adjacency[i] = new ArrayList<Integer>();
+        }
+        for(int[] dep : prereq) {
+            adjacency[dep[1]].add(dep[0]);
+        }
+        
+        List<Integer> visitSequence = new ArrayList<Integer>();
+        int[] visited = new int[numCourses];  // 0, not visted; 1, being visted; 2, visited.
+        
+        for(int i = 0; i < numCourses; i++) {
+            if(visited[i] == 0 && !dfsTopoUtil(adjacency, i, visited, visitSequence)){
+                return new int[0];
+            }
+        }
+        
+        int[] result = new int[numCourses];
+        for(int i = 0; i < numCourses; i++) {
+            result[i] = visitSequence.get(i);
+        }
+        
+        return result;
+    }
+
+    public boolean dfsTopoUtil(List<Integer>[] adjacency, int v, int[] visited, List<Integer> visitSequence) {
+        visited[v] = 1;
+        
+        for (Integer adj : adjacency[v]) {
+            if (visited[adj] == 1) {  // cycle found
+                return false;
+            } else if (visited[adj] == 0) {
+                if(!dfsTopoUtil(adjacency, adj, visited, visitSequence)){
+                    return false;
+                }
+            }
+        }
+        
+        visited[v] = 2;
+        visitSequence.add(0, v);
+        return true;
+    }
+```
+BFS, solution:
+```
+    public boolean canFinish(int vertices, int[][] prereq) {
+        int[] indegree = new int[vertices];
+        int[] result = new int[vertices];
+        List<Integer>[] graph = new List[vertices];
+        for (int i = 0; i < vertices; i++) {
+            graph[i] = new ArrayList<Integer>();
+        }
+        initGraph(prereq, indegree, graph);
+        return bfs(indegree, graph);
+    }
+
+    private void initGraph(int[][] prereq, int[] indegree, List<Integer>[] graph) {
+        for(int[] dep : prereq) {
+            graph[dep[1]].add(dep[0]);
+            indegree[dep[0]]++;
+        }
+    }
+    
+    private boolean bfs(int[] indegree, List<Integer>[] graph) {
+        int index = 0;
+        int[] result = new int[graph.length];
+        Queue<Integer> queue = new LinkedList<Integer>();
+        
+        for(int i = 0; i < indegree.length; i++) {
+            if(indegree[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        
+        while(!queue.isEmpty()) {
+            Integer i = queue.poll();
+            result[index++] = i;
+            for(Integer nei : graph[i]) {
+                if(--indegree[nei] == 0) {
+                    queue.offer(nei);
+                }
+            }
+        }
+        return indegree.length == index;
+    }
+```
+
 
 Two Pointers  
-    Ë«Ö¸ÕëÎÊÌâ°üº¬¼¸ÖÖÇé¿ö£º  
-  * Ç°Ïò/Í¬Ïò  
-    * ´°¿Ú£¬ÒÔÎÒµÄ¾­Ñé£¬Ñ¡Ôñend×÷ÎªÍâ²ãÑ­»·±äÁ¿±È½Ï·½±ã  
-    * ¿ìÂý  
-  * ÏàÏò£¬ÒªÑ¡ºÃÍâ²ãÑ­»·ÓÃleft»¹ÊÇright  
-  * Á½¸öÊý×é£¬Ã¿¸öÊý×é·Ö±ðÓÐÒ»¸öÖ¸Õë  
+    Ë«Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
+  * Ç°ï¿½ï¿½/Í¬ï¿½ï¿½  
+    * ï¿½ï¿½ï¿½Ú£ï¿½ï¿½ï¿½ï¿½ÒµÄ¾ï¿½ï¿½é£¬Ñ¡ï¿½ï¿½endï¿½ï¿½Îªï¿½ï¿½ï¿½Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È½Ï·ï¿½ï¿½ï¿½  
+    * ï¿½ï¿½ï¿½ï¿½  
+  * ï¿½ï¿½ï¿½ï¿½ÒªÑ¡ï¿½ï¿½ï¿½ï¿½ï¿½Ñ­ï¿½ï¿½ï¿½ï¿½leftï¿½ï¿½ï¿½ï¿½right  
+  * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é£¬Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ö¸ï¿½ï¿½  
   
-Í¬Ïò´°¿ÚÀàµÄË«Ö¸ÕëÎÊÌâ£ºLongest Substring Without Repeating Characters:  
-°´ÕÕ¾ÅÕÂÄ£°åµÄ×ö·¨£º  
+Í¬ï¿½ò´°¿ï¿½ï¿½ï¿½ï¿½Ë«Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½â£ºLongest Substring Without Repeating Characters:  
+ï¿½ï¿½ï¿½Õ¾ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
 ```
     public int lengthOfLongestSubstring(String s) {
         int[] count = new int[256];
@@ -94,7 +189,7 @@ Two Pointers
         return len;
     }
 ```
-ÎÒ×Ô¼º±È½ÏÏ²»¶µÄ×ö·¨£¬ÎÒ±È½ÏÏ²»¶ÕâÖÖÇé¿öend×÷ÎªÍâ²ãÑ­»·±äÁ¿£º  
+ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½È½ï¿½Ï²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò±È½ï¿½Ï²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½endï¿½ï¿½Îªï¿½ï¿½ï¿½Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
 ```
     public int lengthOfLongestSubstring(String s) {
         int[] count = new int[256];

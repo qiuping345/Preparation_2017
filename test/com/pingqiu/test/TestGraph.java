@@ -11,6 +11,7 @@ import org.junit.Test;
 public class TestGraph {
     Graph graphTopoSort;
     Graph graph;
+    Graph graphTopoSortSmall;
     
     @Before
     public void setup() {
@@ -25,6 +26,14 @@ public class TestGraph {
         graphTopoSort.addEdge(5, 7);
         graphTopoSort.addEdge(8, 7);
         graphTopoSort.addEdge(6, 7);
+        
+        graphTopoSortSmall = new Graph(4, true);
+        graphTopoSortSmall.addEdge(1, 0);
+        graphTopoSortSmall.addEdge(0, 2);
+        graphTopoSortSmall.addEdge(1, 3);
+        graphTopoSortSmall.addEdge(3, 2);
+        
+        
         
         graph = new Graph(7, false);
         graph.addEdge(0, 1);
@@ -49,6 +58,14 @@ public class TestGraph {
     @Test
     public void testTopologicalSorting() {
         List<Integer> tr = graphTopoSort.topologicalSorting();
+        for(Integer i : tr) {
+            System.out.print(" " + i);
+        }
+    }
+
+    @Test
+    public void testTopologicalSortingSmall() {
+        List<Integer> tr = graphTopoSortSmall.topologicalSorting();
         for(Integer i : tr) {
             System.out.print(" " + i);
         }
