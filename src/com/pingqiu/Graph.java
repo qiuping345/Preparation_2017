@@ -63,9 +63,9 @@ public class Graph {
         List<Integer> visitSequence = new ArrayList<Integer>();
         boolean[] visited = new boolean[vertices];
         for(int i = 0; i < vertices; i++) {
-        	if(!visited[i]) {
-        		dfsTopoUtil(i, visited, visitSequence);
-        	}
+            if(!visited[i]) {
+                dfsTopoUtil(i, visited, visitSequence);
+            }
         }
         return visitSequence;
     }
