@@ -5,6 +5,7 @@ bin
 *.exe
 *.o
 *.so
+*.iml
 
 .settings
 .classpath
@@ -14,5 +15,7 @@ bin
 ._*
 .Spotlight-V100
 .Trashes
+.idea
+
 ehthumbs.db
 Thumbs.db
