@@ -209,3 +209,43 @@ BFS, solution:
     }
 ```
     
+Backtracking
+回溯法在递归基础上，额外需要注意的是它有三个步骤：
+1. Choose
+2. Explore
+3. Unchoose  
+
+这道题是LintCode #152, Combinations， 需要注意的是去重，不要Permute. [1, 2]和[2, 1]是同一个组合。
+
+```
+    public List<List<Integer>> combine(int n, int k) {
+        // write your code here
+        boolean[] visited = new boolean[n];
+        List<List<Integer>> result = new ArrayList<>();
+        combine(k, 0, visited, new ArrayList<Integer>(), result);
+        return result;
+    }
+    
+    private void combine(int k, int index, boolean[] visited, List<Integer> prefix, List<List<Integer>> result) {
+        if(index == k) {
+            result.add(prefix);
+            return;
+        }
+        //这里要选择比上一个选择的数字要大的，这样来避免重复
+        int start = prefix.size() == 0 ? 0 : prefix.get(prefix.size() - 1);
+        for(int i = start ; i < visited.length; i++) {
+            if(!visited[i]) {
+                //1. Choose
+                visited[i] = true;
+                
+                //2. Explore
+                List<Integer> nl = new ArrayList<Integer>(prefix);
+                nl.add(i+1);
+                combine(k, index+1, visited, nl, result);
+                
+                //3. Unchoose
+                visited[i] = false;
+            }
+        }
+    }
+```
