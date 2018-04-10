@@ -1,4 +1,4 @@
-Quick Select
+#### Quick Select
 ```
     /**
      * Quick select
@@ -43,7 +43,7 @@ Quick Select
     } 
 ```
 
-Binary Search
+#### Binary Search
 
 ```
     private int binarySearch(int[] a, int fromIndex, int toIndex, int key) {
@@ -67,9 +67,11 @@ Binary Search
 
 ```
 
-Topological Sorting. Course Schedule, Leetcode #210
+#### Topological Sorting
+Course Schedule, Leetcode #210
 
-DFS solution, including:
+##### DFS solution
+Including:
 1. checking cycle
 2. get the sorting result.
 
@@ -118,7 +120,7 @@ DFS solution, including:
         return true;
     }
 ```
-BFS, solution:
+##### BFS solution:
 ```
     public boolean canFinish(int vertices, int[][] prereq) {
         int[] indegree = new int[vertices];
@@ -162,7 +164,7 @@ BFS, solution:
     }
 ```
 
- Two Pointers
+ #### Two Pointers
      双指针问题包含几种情况：
    * 前向/同向
      * 窗口，以我的经验，选择end作为外层循环变量比较方便
@@ -209,7 +211,7 @@ BFS, solution:
     }
 ```
     
-Backtracking
+#### Backtracking
 回溯法在递归基础上，额外需要注意的是它有三个步骤：
 1. Choose
 2. Explore
