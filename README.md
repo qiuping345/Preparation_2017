@@ -67,6 +67,36 @@
 
 ```
 
+#### Binary Search Tree Iterator
+```
+public class BSTIterator {
+    TreeNode curr = null;
+    Stack<TreeNode> stack = new Stack<TreeNode>();
+    public BSTIterator(TreeNode root) {
+        curr = root;
+    }
+
+    /** @return whether we have a next smallest number */
+    public boolean hasNext() {
+        return !stack.empty() || curr != null;
+    }
+
+    /** @return the next smallest number */
+    public int next() {
+        while(hasNext()) {
+            if(curr == null) {
+                TreeNode n = stack.pop();
+                curr = n.right;
+                return n.val;
+            } else {
+                stack.push (curr);
+                curr = curr.left;
+            }
+        }
+        return Integer.MIN_VALUE;
+    }
+}
+```
 #### Topological Sorting
 Course Schedule, Leetcode #210
 
