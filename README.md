@@ -67,6 +67,29 @@
 
 ```
 
+#### Binary Tree Inorder travsersal, iterative
+```
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> list = new ArrayList<Integer>();
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        if(root == null) {
+            return list;
+        }
+        TreeNode curr = root;
+        while(!stack.empty() || curr != null) {
+            if(curr == null) {
+                TreeNode n = stack.pop();
+                list.add(n.val);
+                curr = n.right;
+            } else {
+                stack.push(curr);
+                curr = curr.left;
+            }
+        }
+        return list;
+    }
+```
+
 #### Binary Search Tree Iterator
 ```
 public class BSTIterator {
