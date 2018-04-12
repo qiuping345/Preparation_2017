@@ -151,6 +151,7 @@ Including:
     }
 ```
 ##### BFS solution:
+BFS的时候，需要注意的是，visited数组是遍历的时候为避免重复访问而引入的，不是任何时候都需要visited数组来确保不会重复访问某一个节点。重要的不是避免重复访问同一个节点，重要的是什么时候把满足条件的节点放入queue里，并且保证那个while(!queue.isEmpty())不会是死循环。
 ```
     public boolean canFinish(int vertices, int[][] prereq) {
         int[] indegree = new int[vertices];
