@@ -19,7 +19,20 @@ public class LongestCommonSubsequence {
                 }
             }
         }
+        System.out.println("one of the LCS is : " + backtrack(map, s1, s2, s1.length() - 1, s2.length() - 1));
         return map[arr1.length][arr2.length];
+    }
+
+    private static String backtrack(int[][] map, String s1, String s2, int i, int j) {
+        if (i == -1 || j == -1) {
+            return "";
+        } else if (s1.charAt(i) == s2.charAt(j)) {
+            return backtrack(map, s1, s2, i - 1, j - 1) + s1.charAt(i);
+        } else if (map[i][j-1] > map[i-1][j]) {
+            return backtrack(map, s1, s2, i, j - 1);
+        } else {
+            return backtrack(map, s1, s2, i - 1, j);
+        }
     }
 
     public static String oneOfLCS(String s1, String s2) {
