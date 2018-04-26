@@ -264,6 +264,55 @@ BFS的时候，需要注意的是，visited数组是遍历的时候为避免重�
         return len == Integer.MIN_VALUE ? 0 : len;
     }
 ```
+
+##### 3 sum with dup elements but no dup in result  
+Given an array nums of n integers, are there elements a, b, c in nums such that a + b + c = 0? Find all unique triplets in the array which gives the sum of zero.  
+**Note:** The solution set must not contain duplicate triplets.  
+**Example:** Given array nums = [-1, 0, 1, 2, -1, -4],  
+A solution set is:  
+[  
+&nbsp;&nbsp;&nbsp;[-1, 0, 1],  
+&nbsp;&nbsp;&nbsp;[-1, -1, 2]  
+]  
+
+```
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        
+        if(nums == null || nums.length == 0) {
+            return result;
+        }
+        
+        Arrays.sort(nums);
+        
+        for(int i = 0; i < nums.length - 2 && nums[i] <= 0; i++) {
+            if(i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            
+            int left = i + 1;
+            int right = nums.length - 1;
+            
+            while(left < right ) {
+                int sum = nums[left] + nums[right];
+                if(sum == -nums[i]) {
+                    result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                    
+                    // go to the next different element comparing to the nums[left]
+                    left++;
+                    while(left < nums.length && nums[left] == nums[left - 1]) {
+                        left++;
+                    }
+                } else if(sum < -nums[i]) {
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+        }
+        return result;
+    }
+```
     
 #### Backtracking
 回溯法在递归基础上，额外需要注意的是它有三个步骤：
