@@ -4,6 +4,10 @@ import static com.pingqiu.Util.swap;
 
 public class Sorting {
 
+    /**
+     * Insertion Sort
+     * @param arr
+     */
     public void insertionSort(int[] arr) {
         if (arr == null || arr.length < 2) {
             return;
@@ -19,6 +23,10 @@ public class Sorting {
         }
     }
 
+    /**
+     * Merge Sort
+     * @param arr
+     */
     public void mergeSort(int[] arr) {
         mergeSort(arr, 0, arr.length);
     }
@@ -66,6 +74,10 @@ public class Sorting {
         }
     }
 
+    /**
+     * Quick Sort
+     * @param arr
+     */
     public void quicksort(int[] arr) {
         quicksort(arr, 0, arr.length - 1);
     }
@@ -89,4 +101,39 @@ public class Sorting {
         return s;
     }
 
+    /**
+     * Heap Sort
+     * @param arr
+     */
+    public void heapSort(int[] arr) {
+        if(arr == null || arr.length == 0) {
+            return;
+        }
+        for(int i = arr.length / 2; i >= 0; i--) {
+            siftDown(arr, i, arr.length);
+        }
+        for(int i = arr.length - 1; i > 0; i--) {
+            swap(arr, i, 0);
+            siftDown(arr, 0, i);
+        }
+    }
+
+    private void siftDown(int[] arr, int i, int len) {
+        if(i >= len / 2) {
+            return;
+        }
+
+        int left = 2 * i + 1;
+        int right = 2 * i + 2;
+        int max = right;
+
+        if (max >= len || arr[left] > arr[max]) {
+            max = left;
+        }
+
+        if(arr[i] < arr[max]) {
+            swap(arr, i , max);
+            siftDown(arr, max, len);
+        }
+    }
 }
