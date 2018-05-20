@@ -120,6 +120,62 @@ public class BSTIterator {
     }
 }
 ```
+
+#### BFS & DFS
+'Clone Graph' is a very good question, it could be solved in both BFS & DFS.
+
+##### BFS solution
+```
+public class Solution {
+    public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+        if(node == null) {
+            return null;
+        }
+        HashMap<UndirectedGraphNode, UndirectedGraphNode> map = new HashMap<>();
+        map.put(node, new UndirectedGraphNode(node.label));
+        
+        Queue<UndirectedGraphNode> queue = new LinkedList<>();
+        queue.offer(node);
+        
+        while(!queue.isEmpty()) {
+            UndirectedGraphNode curr = queue.poll();
+            UndirectedGraphNode clone = map.get(curr);
+            for(UndirectedGraphNode nei : curr.neighbors) {
+                if(!map.containsKey(nei)) {
+                    map.put(nei, new UndirectedGraphNode(nei.label));
+                    queue.offer(nei);
+                }
+                clone.neighbors.add(map.get(nei));
+            }
+        }
+        return map.get(node);
+    }
+}
+```
+##### DFS solution
+```
+public class Solution {
+    HashMap<UndirectedGraphNode, UndirectedGraphNode> map = new HashMap<>();
+    
+    public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+        if(node == null) {
+            return null;
+        }
+        if(map.containsKey(node)) {
+            return map.get(node);
+        } 
+
+        UndirectedGraphNode cloneNode = new UndirectedGraphNode(node.label);
+        map.put(node, cloneNode);
+        
+        for(UndirectedGraphNode nei : node.neighbors) {
+            cloneNode.neighbors.add(cloneGraph(nei));
+        }   
+        return cloneNode;
+    }
+}
+```
+
 #### Topological Sorting
 Course Schedule, Leetcode #210
 
