@@ -410,3 +410,51 @@ A solution set is:
         }
     }
 ```
+#### K closest elements to target in a BST, leetcode #272
+Given a non-empty binary search tree and a target value, find k values in the BST that are closest to the target.
+```
+class Solution {
+    public List<Integer> closestKValues(TreeNode root, double target, int k) {
+        List<Integer> result = new ArrayList<Integer>();
+        int ceiling = (int) target + 1;
+        int floor = (int) target;
+        TreeNode higher = getCeiling(root, ceiling);
+        TreeNode lower = getFloor(root, floor);
+        while(result.size() < k) {
+            if(higher != null && (lower == null || Math.abs(target - higher.val ) < Math.abs(target - lower.val))) {
+                result.add(higher.val);
+                higher = getCeiling(root, higher.val + 1);
+            } else {
+                result.add(lower.val);
+                lower = getFloor(root, lower.val - 1);
+            }
+        }
+        return result;
+    }
+    
+    private TreeNode getCeiling(TreeNode root, int target) {
+        if (root == null) {
+            return null;
+        }
+        if(root.val < target) {
+            return getCeiling(root.right, target);
+        } else {
+            TreeNode node = getCeiling(root.left, target);
+            return node == null ? root : node;
+        }
+    }
+    
+    private TreeNode getFloor(TreeNode root, int target) {
+        if(root == null) {
+            return null;
+        }
+        if(root.val > target) {
+            return getFloor(root.left, target);
+        } else {
+            TreeNode node = getFloor(root.right, target);
+            return node == null ? root : node;
+        }
+    }
+
+}
+```
