@@ -30,17 +30,17 @@
         return nums[k];
     }
     //* partition in quick sort or quick select.
-    public int partition(int[] arr, int start, int end) {
+    private int partition(int[]arr, int start, int end) {
         int pivot = arr[end];
-        int s = start - 1;
+        int index = start;
         for(int i = start; i < end; i++) {
-            if(arr[i] <= pivot) {
-                swap(arr, ++s, i);
+            if(arr[i] < pivot) {
+                swap(arr, i, index++);
             }
         }
-        swap(arr, ++s, end);
-        return s;
-    } 
+        swap(arr, end, index);
+        return index;
+    }
 ```
 
 #### Binary Search
