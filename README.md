@@ -1,3 +1,13 @@
+#### Complexity
+##### 搜索的时间复杂度：O(答案总数 * 构造每个答案的时间)
+举例：Subsets问题，求所有的子集。子集个数一共 2^n，每个集合的平均长度是 O(n) 的，所以时间复杂度为 O(n * 2^n)，同理 Permutations 问题的时间复杂度为：O(n * n!)
+
+##### 动态规划的时间复杂度：O(状态总数 * 计算每个状态的时间复杂度)
+举例：triangle，数字三角形的最短路径，状态总数约 O(n^2) 个，计算每个状态的时间复杂度为 O(1)——就是求一下 min。所以总的时间复杂度为 O(n^2)
+
+##### 用分治法解决二叉树问题的时间复杂度：O(二叉树节点个数 * 每个节点的计算时间)
+举例：二叉树最大深度。二叉树节点个数为 N，每个节点上的计算时间为 O(1)。总的时间复杂度为 O(N)
+
 #### Quick Select
 ```
     /**
@@ -215,49 +225,50 @@ Including:
 2. get the sorting result.
 
 ```
-    public int[] findOrder(int numCourses, int[][] prereq) {
-        List<Integer>[] adjacency = new List[numCourses];
-        for(int i = 0; i < numCourses; i++){
-            adjacency[i] = new ArrayList<Integer>();
+class Solution {
+    private enum Status {
+        NOT_VISITED,
+        VISIT_IN_PROGRESS,
+        VISITED;
+    }
+    public int[] findOrder(int num, int[][] prereq) {
+        List<Integer>[] graph = new List[num];
+        Status[] visited = new Status[num];
+        List<Integer> result = new LinkedList<Integer>();
+        
+        for(int i = 0; i < num; i++) {
+            graph[i] = new ArrayList<Integer>();
+            visited[i] = Status.NOT_VISITED;
         }
-        for(int[] dep : prereq) {
-            adjacency[dep[1]].add(dep[0]);
+        for(int[] edge : prereq) {
+            graph[edge[1]].add(edge[0]);
         }
         
-        List<Integer> visitSequence = new ArrayList<Integer>();
-        int[] visited = new int[numCourses];  // 0, not visted; 1, being visted; 2, visited.
-        
-        for(int i = 0; i < numCourses; i++) {
-            if(visited[i] == 0 && !dfsTopoUtil(adjacency, i, visited, visitSequence)){
+        for(int i = 0; i < num; i++) {
+            if(visited[i] == Status.NOT_VISITED && !dfs(graph, visited, i, result)) {
                 return new int[0];
             }
         }
-        
-        int[] result = new int[numCourses];
-        for(int i = 0; i < numCourses; i++) {
-            result[i] = visitSequence.get(i);
+        if(result.size() != num) {
+            return new int[0];
         }
-        
-        return result;
+        return result.stream().mapToInt(i -> i).toArray();
     }
-
-    public boolean dfsTopoUtil(List<Integer>[] adjacency, int v, int[] visited, List<Integer> visitSequence) {
-        visited[v] = 1;
-        
-        for (Integer adj : adjacency[v]) {
-            if (visited[adj] == 1) {  // cycle found
+    
+    private boolean dfs(List<Integer>[] graph, Status[] visited, int index, List<Integer> result) {
+        visited[index] = Status.VISIT_IN_PROGRESS;
+        for(Integer req : graph[index]) {
+            if(visited[req] == Status.VISIT_IN_PROGRESS
+                || visited[req] == Status.NOT_VISITED && !dfs(graph, visited, req, result)) {
                 return false;
-            } else if (visited[adj] == 0) {
-                if(!dfsTopoUtil(adjacency, adj, visited, visitSequence)){
-                    return false;
-                }
             }
         }
         
-        visited[v] = 2;
-        visitSequence.add(0, v);
+        visited[index] = Status.VISITED;
+        result.add(0, index);
         return true;
     }
+}
 ```
 ##### BFS solution:
 BFS的时候，需要注意的是，visited数组是遍历的时候为避免重复访问而引入的，不是任何时候都需要visited数组来确保不会重复访问某一个节点。重要的不是避免重复访问同一个节点，重要的是什么时候把满足条件的节点放入queue里，并且保证那个while(!queue.isEmpty())不会是死循环。
