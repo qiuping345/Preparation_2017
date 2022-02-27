@@ -499,3 +499,141 @@ class Solution {
 
 }
 ```
+
+#### Kruskal Algorithm - Minimum Spanning Tree
+Kruskal 
+1. 把所有的边都放到一个按权重排序的最小堆里
+2. 每次从最小堆里拿一个边，看这个边是否构成了一个圈，如果没有就使用这条边，否则就忽略
+3. 利用Union Find Set来判断是否构成了一个圈。
+
+例题 LeetCode 1584 https://leetcode.com/problems/min-cost-to-connect-all-points/
+
+You are given an array points representing integer coordinates of some points on a 2D-plane, where points[i] = [xi, yi].
+
+The cost of connecting two points [xi, yi] and [xj, yj] is the manhattan distance between them: |xi - xj| + |yi - yj|, where |val| denotes the absolute value of val.
+
+Return the minimum cost to make all points connected. All points are connected if there is exactly one simple path between any two points.
+
+```
+class Solution {
+    private static class Edge {
+        public int start;
+        public int end;
+        public int distance;
+        public Edge(int start, int end, int distance) {
+            this.start = start;
+            this.end = end;
+            this.distance = distance;
+        }
+    }
+    
+    int[] parent;
+    private void union(int i, int j) {
+        int pi = find(i);
+        int pj = find(j);
+        if(pi != pj) {
+            parent[pj] = pi;
+        }
+    }
+    private int find(int i) {
+        while(parent[i] != i) {
+            i = parent[i];
+        }
+        return i;
+    }
+    
+    public int minCostConnectPoints(int[][] points) {
+        PriorityQueue<Edge> pq = new PriorityQueue<Edge>((a, b) -> a.distance - b.distance);
+        parent = new int[points.length];
+        for(int i = 0; i < parent.length; i++) {
+            parent[i] = i;
+        }
+        for(int i = 0; i < points.length - 1; i++) {
+            for(int j = i + 1; j < points.length; j++) {
+                int dist = Math.abs(points[i][0] - points[j][0]) + Math.abs(points[i][1] - points[j][1]);
+                pq.offer(new Edge(i, j, dist));
+            }
+        }
+        int result = 0;
+        while(!pq.isEmpty()) {
+            Edge min = pq.poll();
+            int pstart = find(min.start);
+            int pend = find(min.end);
+            if(pstart != pend) {
+                union(min.start, min.end);
+                result += min.distance;
+            }
+        }
+        
+        return result;
+    }
+}
+```
+ 
+#### Prim Algorithm
+
+TO BE ADDED
+
+
+#### Dijkstra Algorithm
+
+Leetcode Network Delay Time https://leetcode.com/problems/network-delay-time/
+
+
+You are given a network of n nodes, labeled from 1 to n. You are also given times, a list of travel times as directed edges times[i] = (ui, vi, wi), where ui is the source node, vi is the target node, and wi is the time it takes for a signal to travel from source to target.
+
+We will send a signal from a given node k. Return the time it takes for all the n nodes to receive the signal. If it is impossible for all the n nodes to receive the signal, return -1.
+
+
+```
+class Solution {
+    public int networkDelayTime(int[][] times, int n, int k) {
+        int[][] graph = new int[n+1][n+1];
+        for(int i = 0; i <= n; i++) {
+            Arrays.fill(graph[i], Integer.MAX_VALUE);
+            graph[i][i] = 0;
+        }
+        for(int[] time : times) {
+            graph[time[0]][time[1]] = time[2];
+        }
+        int[] distance = new int[n+1]; // the distance to origin k
+        Arrays.fill(distance, Integer.MAX_VALUE);
+        distance[k] = 0;
+        
+        Set<Integer> settled = new HashSet<Integer>();
+        settled.add(k);
+        
+        for(int i = 1; i <= n; i++) {
+            distance[i] = graph[k][i];
+        }
+        
+        for(int i = 1; i <= n; i++) {
+            int min = Integer.MAX_VALUE;
+            int next = k;
+            // find the vertex not in 'settled' and with the minimum distance to k
+            for(int j = 1; j <= n; j++) {
+                if(!settled.contains(j) && distance[j] < min) {
+                    min = distance[j];
+                    next = j;
+                }
+            }
+            settled.add(next);
+            // update the distance to all verteices not in 'settled'
+            for(int j = 1; j <= n; j++) {
+                if(!settled.contains(j) && graph[next][j] < Integer.MAX_VALUE) {
+                    distance[j] = Math.min(distance[j], distance[next] + graph[next][j]);
+                }
+            }
+        }
+
+        int max = -1;
+        for(int i = 1; i <= n; i++) {
+            if(distance[i] == Integer.MAX_VALUE) {
+                return -1;
+            }
+            max = Math.max(max, distance[i]);
+        }
+        return max;        
+    }
+}
+```
