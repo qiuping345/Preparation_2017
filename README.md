@@ -637,3 +637,86 @@ class Solution {
     }
 }
 ```
+
+#### BST Iterator
+BST iterator, 就是一种非递归的中序遍历，分步执行。所有的iterator都可以也应该在调用next()之前把数据准备好。
+```aidl
+class BSTIterator {
+    Stack<TreeNode> stack = new Stack();
+    TreeNode curr = null;
+
+    public BSTIterator(TreeNode root) {
+        collectAllTheLeft(root);
+    }
+    
+    private void collectAllTheLeft(TreeNode node) {
+        while(node != null) {
+            stack.push(node);
+            node = node.left;
+        }
+    }
+    
+    public int next() {
+        TreeNode top = stack.pop();
+        collectAllTheLeft(top.right);
+        return top.val;
+    }
+    
+    public boolean hasNext() {
+        return !stack.empty();
+    }
+}
+```
+#### Nested List Iterator
+所有的iterator都可以也应该在调用next()之前把数据准备好。
+```aidl
+/**
+ * // This is the interface that allows for creating nested lists.
+ * // You should not implement it, or speculate about its implementation
+ * public interface NestedInteger {
+ *
+ *     // @return true if this NestedInteger holds a single integer, rather than a nested list.
+ *     public boolean isInteger();
+ *
+ *     // @return the single integer that this NestedInteger holds, if it holds a single integer
+ *     // Return null if this NestedInteger holds a nested list
+ *     public Integer getInteger();
+ *
+ *     // @return the nested list that this NestedInteger holds, if it holds a nested list
+ *     // Return empty list if this NestedInteger holds a single integer
+ *     public List<NestedInteger> getList();
+ * }
+ */
+public class NestedIterator implements Iterator<Integer> {
+    Stack<NestedInteger> stack = new Stack();
+    public NestedIterator(List<NestedInteger> nestedList) {
+        yank(nestedList);
+        yankUntilIntegerOnTop();
+    }
+    
+    private void yank(List<NestedInteger> list) {
+        ListIterator<NestedInteger> iter = list.listIterator(list.size());
+        while(iter.hasPrevious()) {
+            stack.push(iter.previous());
+        }
+    }
+    
+    private void yankUntilIntegerOnTop(){
+        while(!stack.empty() && !stack.peek().isInteger()) {
+            yank(stack.pop().getList());
+        }
+    }
+
+    @Override
+    public Integer next() {
+        NestedInteger ni = stack.pop();
+        yankUntilIntegerOnTop();
+        return ni.getInteger();
+    }
+
+    @Override
+    public boolean hasNext() {
+        return !stack.empty();
+    }
+}
+```
