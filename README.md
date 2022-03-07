@@ -640,7 +640,7 @@ class Solution {
 
 #### BST Iterator
 BST iterator, 就是一种非递归的中序遍历，分步执行。所有的iterator都可以也应该在调用next()之前把数据准备好。
-```aidl
+```
 class BSTIterator {
     Stack<TreeNode> stack = new Stack();
     TreeNode curr = null;
@@ -669,7 +669,7 @@ class BSTIterator {
 ```
 #### Nested List Iterator
 所有的iterator都可以也应该在调用next()之前把数据准备好。
-```aidl
+```
 /**
  * // This is the interface that allows for creating nested lists.
  * // You should not implement it, or speculate about its implementation
