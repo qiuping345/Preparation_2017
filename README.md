@@ -535,11 +535,22 @@ class Solution {
             parent[pj] = pi;
         }
     }
+    /**
+     * 这个写法在运行时很慢，不如使用递归改变parent内值的做法。
+     */
     private int find(int i) {
         while(parent[i] != i) {
             i = parent[i];
         }
         return i;
+    }
+    // A better writing. 
+    private int find(int[] parent, int n) {
+        if(parent[n] == n) {
+            return n;
+        }
+        parent[n] = find(parent, parent[n]);
+        return parent[n];
     }
     
     public int minCostConnectPoints(int[][] points) {
@@ -717,6 +728,44 @@ public class NestedIterator implements Iterator<Integer> {
     @Override
     public boolean hasNext() {
         return !stack.empty();
+    }
+}
+```
+
+#### Dynamic Programming
+Leetcode #44. Wildcard Matching
+Given an input string (s) and a pattern (p), implement wildcard pattern matching with support for '?' and '*' where:
+
+'?' Matches any single character.
+'*' Matches any sequence of characters (including the empty sequence).
+The matching should cover the entire input string (not partial).
+
+```
+class Solution {
+    public boolean isMatch(String s, String p) {
+        boolean[][] dp = new boolean[p.length() + 1][s.length() + 1];
+        dp[0][0] = true;
+        
+        // why we need a for loop to initialize here?
+        // Because the special case s: "", p: "****". 
+        // Only for this case s is empty, then it won't enter the inner for loop at all.
+        for(int i = 0; i < p.length(); i++) {
+            if(p.charAt(i) == '*') {
+                dp[i+1][0] = true;
+            } else {
+                break;
+            }
+        }
+        for(int i = 0; i < p.length(); i++) {
+            for(int j = 0; j < s.length(); j++){
+                if(p.charAt(i) == '?' || p.charAt(i) == s.charAt(j)) {
+                    dp[i+1][j+1] = dp[i][j];
+                } else if(p.charAt(i) == '*') {
+                    dp[i+1][j+1] = dp[i+1][j] || dp[i][j+1];
+                }
+            }
+        }
+        return dp[p.length()][s.length()];
     }
 }
 ```
